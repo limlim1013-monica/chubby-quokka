@@ -34,6 +34,7 @@
   .hero { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 28px; align-items: center; }
   .stage { background: var(--paper); border-radius: 24px; }
   .stage svg { display: block; width: 100%; height: auto; }
+  .defs { position: absolute; width: 0; height: 0; }
   dl { margin: 0; display: grid; grid-template-columns: 5em minmax(0, 1fr); gap: 10px 12px; }
   dt { font-family: var(--display); color: var(--accent); }
   dd { margin: 0; }
@@ -54,6 +55,42 @@
 
 </head>
 <body>
+<svg class="defs" aria-hidden="true">
+  <defs>
+    <radialGradient id="gFur" gradientUnits="userSpaceOnUse" cx="235" cy="175" r="430">
+      <stop offset="0" stop-color="#F0C792"/><stop offset=".5" stop-color="#C8955F"/><stop offset="1" stop-color="#93613C"/>
+    </radialGradient>
+    <radialGradient id="gSweat" gradientUnits="userSpaceOnUse" cx="250" cy="410" r="270">
+      <stop offset="0" stop-color="#FFF9EA"/><stop offset="1" stop-color="#E2D0AD"/>
+    </radialGradient>
+    <linearGradient id="gSleeve" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF7E6"/><stop offset="1" stop-color="#DCC9A4"/>
+    </linearGradient>
+    <radialGradient id="gMuzzle" cx=".4" cy=".3" r=".8">
+      <stop offset="0" stop-color="#FFF5E0"/><stop offset="1" stop-color="#EBD2A8"/>
+    </radialGradient>
+    <radialGradient id="gBlush">
+      <stop offset="0" stop-color="#F7837F" stop-opacity=".85"/><stop offset=".6" stop-color="#F7918A" stop-opacity=".45"/><stop offset="1" stop-color="#F7918A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gBeanie" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9BD56B"/><stop offset="1" stop-color="#4C962D"/>
+    </linearGradient>
+    <radialGradient id="gDark" cx=".35" cy=".3" r=".8">
+      <stop offset="0" stop-color="#A9764D"/><stop offset="1" stop-color="#76502F"/>
+    </radialGradient>
+    <filter id="fFur" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="3" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="11" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="fSoft" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="8" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="fBlur" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="9"/></filter>
+    <clipPath id="cSweat"><rect x="0" y="0" width="600" height="568"/></clipPath>
+  </defs>
+</svg>
+
 <div class="wrap">
   <header>
     <h1>Chubby Quokka <small>쿼카뚱 캐릭터 시트</small></h1>
@@ -64,11 +101,12 @@
     <div class="stage" id="hero"></div>
     <div>
       <dl>
-        <dt>생김새</dt><dd>동그란 얼굴과 귀, 크림색 배와 주둥이, 큰 코, 짧은 꼬리</dd>
-        <dt>상징물</dt><dd>초록 잎사귀. 손에 들거나 먹는 장면에 씁니다.</dd>
+        <dt>생김새</dt><dd>공처럼 둥근 몸, 짧은 팔다리, 진한 분홍 볼, 큰 코, 복슬복슬한 갈색 털</dd>
+        <dt>옷</dt><dd>초록 비니와 크림색 맨투맨. 모든 장면에서 같은 옷을 입습니다.</dd>
+        <dt>상징물</dt><dd>초록 잎사귀. 손에 들거나 가슴에 자수로 붙입니다.</dd>
         <dt>성격</dt><dd>먹는 걸 좋아하고 잘 웃지만, 잘 삐지기도 해요.</dd>
         <dt>말버릇</dt><dd>"한 입만", "뚱 아니고 통통"</dd>
-        <dt>그리는 법</dt><dd>굵은 갈색 외곽선에 단색 채색. 머리와 몸 비율은 1 : 1</dd>
+        <dt>그리는 법</dt><dd>외곽선 없이 명암으로 표현하는 인형 같은 3D 느낌. 머리가 몸보다 큽니다.</dd>
       </dl>
       <div class="pal" id="pal"></div>
     </div>
@@ -81,9 +119,8 @@
 </div>
 
 <script>
-const C = { o:'#5B3B28', fur:'#C8955F', furD:'#A9754B', cream:'#F7E4C4', nose:'#3B2A24', pink:'#F4A39A',
-            ear:'#E3A48E', leaf:'#7CC04B', leafD:'#4E9A2E', mouth:'#8C3434', tongue:'#F28C8C', tear:'#7CC7F2', paw:'#5E4336' };
-const S = `stroke="${C.o}" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"`;
+const C = { o:'#4A3020', nose:'#33241E', mouth:'#8C3434', tongue:'#F28C8C', tear:'#7CC7F2', leaf:'#7CC04B', leafD:'#3F8A26' };
+const S = `stroke="${C.o}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"`;
 const L = `fill="none" ${S}`;
 
 function eye(type, x) {
@@ -92,9 +129,9 @@ function eye(type, x) {
     case 'half':  return `<path d="M${x-20},210 A20,20 0 0 0 ${x+20},210 Z" fill="${C.nose}"/><path d="M${x-25},210 L${x+25},210" ${L}/>`;
     case 'big':   return `<circle cx="${x}" cy="213" r="25" fill="#fff" ${S}/><circle cx="${x}" cy="213" r="9" fill="${C.nose}"/>`;
     case 'cry':   return `<path d="M${x-22},208 Q${x},232 ${x+22},208" ${L}/>
-                   <path d="M${x},240 C${x-17},266 ${x-11},284 ${x},284 C${x+11},284 ${x+17},266 ${x},240 Z" fill="${C.tear}" stroke="#4FA3D6" stroke-width="4" stroke-linejoin="round"/>`;
-    case 'heart': return `<path transform="translate(${x},218) scale(1.35)" d="M0,16 C-32,-6 -17,-30 0,-12 C17,-30 32,-6 0,16Z" fill="#F0566E" stroke="${C.o}" stroke-width="4" stroke-linejoin="round"/>`;
-    default:      return `<circle cx="${x}" cy="215" r="19" fill="${C.nose}"/><circle cx="${x-6}" cy="208" r="6.5" fill="#fff"/><circle cx="${x+6}" cy="222" r="3" fill="#fff" opacity=".8"/>`;
+                   <path d="M${x},240 C${x-17},266 ${x-11},284 ${x},284 C${x+11},284 ${x+17},266 ${x},240 Z" fill="${C.tear}" stroke="#4FA3D6" stroke-width="3" stroke-linejoin="round"/>`;
+    case 'heart': return `<path transform="translate(${x},218) scale(1.35)" d="M0,16 C-32,-6 -17,-30 0,-12 C17,-30 32,-6 0,16Z" fill="#F0566E"/>`;
+    default:      return `<circle cx="${x}" cy="215" r="20" fill="${C.nose}"/><circle cx="${x-6}" cy="208" r="7" fill="#fff"/><circle cx="${x+7}" cy="223" r="3.5" fill="#fff" opacity=".8"/>`;
   }
 }
 
@@ -111,35 +148,6 @@ function mouth(type) {
   }
 }
 
-function arm(d, px, py) {
-  return `<path d="${d}" fill="none" stroke="${C.o}" stroke-width="46" stroke-linecap="round"/>
-          <path d="${d}" fill="none" stroke="${C.furD}" stroke-width="32" stroke-linecap="round"/>
-          <circle cx="${px}" cy="${py}" r="14" fill="${C.paw}" stroke="${C.o}" stroke-width="5"/>`;
-}
-function arms(type) {
-  if (type === 'up')   return arm('M178,400 Q112,362 96,292', 96, 288) + arm('M422,400 Q488,362 504,292', 504, 288);
-  if (type === 'hold') return '';
-  return arm('M176,388 Q150,440 170,480', 170, 484) + arm('M424,388 Q450,440 430,480', 430, 484);
-}
-function holdLeaf(bitten) {
-  return `<path d="M300,500 L300,462" fill="none" stroke="${C.leafD}" stroke-width="8" stroke-linecap="round"/>
-    <path d="M300,470 C258,455 258,400 300,372 C342,400 342,455 300,470Z" fill="${C.leaf}" stroke="${C.o}" stroke-width="6" stroke-linejoin="round"/>
-    <path d="M300,462 L300,392 M300,440 L282,426 M300,440 L318,426 M300,418 L286,406 M300,418 L314,406" fill="none" stroke="${C.leafD}" stroke-width="4" stroke-linecap="round"/>
-    ${bitten ? `<circle cx="331" cy="396" r="17" fill="${C.cream}"/><path d="M316,388 A17,17 0 0 0 338,411" fill="none" stroke="${C.o}" stroke-width="6" stroke-linecap="round"/>` : ''}
-    ${arm('M190,398 Q205,470 272,486', 276, 487)}${arm('M410,398 Q395,470 328,486', 324, 487)}`;
-}
-
-function extras(type) {
-  const heart = (x, y, s) => `<path transform="translate(${x},${y}) scale(${s})" d="M0,16 C-32,-6 -17,-30 0,-12 C17,-30 32,-6 0,16Z" fill="#F0566E" stroke="${C.o}" stroke-width="${4/s}" stroke-linejoin="round"/>`;
-  switch (type) {
-    case 'hearts': return heart(520, 120, 1.1) + heart(556, 190, 0.6) + heart(70, 150, 0.8);
-    case 'anger':  return `<g transform="translate(505,100)" stroke="#E5484D" stroke-width="8" fill="none" stroke-linecap="round">
-        <path d="M-20,-7 Q-7,-7 -7,-20"/><path d="M7,-20 Q7,-7 20,-7"/><path d="M20,7 Q7,7 7,20"/><path d="M-7,20 Q-7,7 -20,7"/></g>`;
-    case 'shock':  return `<g ${L}><path d="M84,120 L58,96"/><path d="M60,165 L26,156"/><path d="M516,120 L542,96"/><path d="M540,165 L574,156"/></g>`;
-    case 'steam':  return `<g fill="#fff" stroke="${C.o}" stroke-width="5"><circle cx="498" cy="322" r="13"/><circle cx="524" cy="304" r="9"/><circle cx="542" cy="290" r="5"/></g>`;
-    default: return '';
-  }
-}
 function brows(type) {
   if (type === 'angry') return `<path d="M186,172 L242,192" ${L}/><path d="M414,172 L358,192" ${L}/>`;
   if (type === 'flat')  return `<path d="M190,180 L240,184" ${L}/><path d="M410,180 L360,184" ${L}/>`;
@@ -147,24 +155,69 @@ function brows(type) {
   return '';
 }
 
+function arm(side, pose) {
+  const sx = side < 0 ? 150 : 450;
+  const ang = { down: 15, up: 140, hold: -58 }[pose] * (side < 0 ? 1 : -1);
+  return `<g transform="translate(${sx},420) rotate(${ang})">
+    <circle cx="0" cy="128" r="22" fill="url(#gDark)" filter="url(#fFur)"/>
+    <ellipse cx="0" cy="52" rx="42" ry="66" fill="url(#gSleeve)" filter="url(#fSoft)"/>
+    <ellipse cx="0" cy="110" rx="31" ry="11" fill="#D3C09B"/>
+  </g>`;
+}
+
+function leaf(bitten) {
+  return `<g transform="translate(0,35)">
+    <path d="M300,500 L300,462" fill="none" stroke="${C.leafD}" stroke-width="8" stroke-linecap="round"/>
+    <path d="M300,470 C258,455 258,400 300,372 C342,400 342,455 300,470Z" fill="${C.leaf}"/>
+    <path d="M300,470 C320,455 330,420 300,372 C342,400 342,455 300,470Z" fill="${C.leafD}" opacity=".35"/>
+    <path d="M300,462 L300,392 M300,440 L282,426 M300,440 L318,426 M300,418 L286,406 M300,418 L314,406" fill="none" stroke="${C.leafD}" stroke-width="4" stroke-linecap="round"/>
+    ${bitten ? `<circle cx="333" cy="394" r="18" fill="#F4E9D2"/>` : ''}
+  </g>`;
+}
+
+function extras(type) {
+  const heart = (x, y, s) => `<path transform="translate(${x},${y}) scale(${s})" d="M0,16 C-32,-6 -17,-30 0,-12 C17,-30 32,-6 0,16Z" fill="#F0566E"/>`;
+  switch (type) {
+    case 'hearts': return heart(545, 110, 1.1) + heart(572, 190, 0.6) + heart(48, 140, 0.8);
+    case 'anger':  return `<g transform="translate(530,80)" stroke="#E5484D" stroke-width="8" fill="none" stroke-linecap="round">
+        <path d="M-20,-7 Q-7,-7 -7,-20"/><path d="M7,-20 Q7,-7 20,-7"/><path d="M20,7 Q7,7 7,20"/><path d="M-7,20 Q-7,7 -20,7"/></g>`;
+    case 'shock':  return `<g ${L}><path d="M68,84 L44,58"/><path d="M50,148 L16,138"/><path d="M532,84 L556,58"/><path d="M550,148 L584,138"/></g>`;
+    case 'steam':  return `<g fill="#fff" stroke="${C.o}" stroke-width="4"><circle cx="522" cy="360" r="13"/><circle cx="548" cy="342" r="9"/><circle cx="566" cy="328" r="5"/></g>`;
+    default: return '';
+  }
+}
+
 function quokka(p) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Chubby Quokka ${p.name}">
-  <ellipse cx="450" cy="535" rx="46" ry="17" transform="rotate(-25 450 535)" fill="${C.furD}" ${S}/>
-  <ellipse cx="300" cy="440" rx="150" ry="135" fill="${C.fur}" ${S}/>
-  <ellipse cx="300" cy="455" rx="100" ry="103" fill="${C.cream}"/>
-  ${arms(p.arms)}
-  <ellipse cx="232" cy="568" rx="50" ry="22" fill="${C.furD}" ${S}/>
-  <ellipse cx="368" cy="568" rx="50" ry="22" fill="${C.furD}" ${S}/>
-  <circle cx="176" cy="116" r="48" fill="${C.fur}" ${S}/><circle cx="176" cy="118" r="26" fill="${C.ear}"/>
-  <circle cx="424" cy="116" r="48" fill="${C.fur}" ${S}/><circle cx="424" cy="118" r="26" fill="${C.ear}"/>
-  <ellipse cx="300" cy="230" rx="165" ry="140" fill="${C.fur}" ${S}/>
-  <ellipse cx="300" cy="278" rx="88" ry="62" fill="${C.cream}"/>
-  <ellipse cx="152" cy="272" rx="27" ry="16" fill="${C.pink}" opacity=".75"/>
-  <ellipse cx="448" cy="272" rx="27" ry="16" fill="${C.pink}" opacity=".75"/>
-  ${brows(p.brows)}${eye(p.eyes, 215)}${eye(p.eyes, 385)}
-  ${mouth(p.mouth)}
-  <ellipse cx="300" cy="243" rx="31" ry="21" fill="${C.nose}"/><ellipse cx="290" cy="235" rx="9" ry="5" fill="#fff" opacity=".55"/>
-  ${p.arms === 'hold' ? holdLeaf(p.bitten) : ''}
+  const hold = p.arms === 'hold';
+  const armsSvg = arm(-1, p.arms) + arm(1, p.arms);
+  const ribs = Array.from({ length: 18 }, (_, i) => `<path d="M${140 + i * 19},156 L${140 + i * 19},192"/>`).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 680" role="img" aria-label="Chubby Quokka ${p.name}">
+  <ellipse cx="300" cy="652" rx="185" ry="16" fill="#3A2A1A" opacity=".22" filter="url(#fBlur)"/>
+  <ellipse cx="472" cy="600" rx="44" ry="18" transform="rotate(-25 472 600)" fill="url(#gDark)" filter="url(#fFur)"/>
+  <ellipse cx="300" cy="505" rx="168" ry="138" fill="url(#gFur)" filter="url(#fFur)"/>
+  <ellipse cx="238" cy="634" rx="48" ry="21" fill="url(#gDark)" filter="url(#fFur)"/>
+  <ellipse cx="362" cy="634" rx="48" ry="21" fill="url(#gDark)" filter="url(#fFur)"/>
+  <g clip-path="url(#cSweat)"><ellipse cx="300" cy="498" rx="178" ry="146" fill="url(#gSweat)"/></g>
+  <path d="M148,565 Q300,604 452,565" fill="none" stroke="#D3C09B" stroke-width="18" stroke-linecap="round"/>
+  ${hold ? '' : `<g transform="translate(300,505) rotate(20) scale(.42) translate(-300,-421)"><path d="M300,470 C258,455 258,400 300,372 C342,400 342,455 300,470Z" fill="${C.leaf}"/><path d="M300,500 L300,392" fill="none" stroke="${C.leafD}" stroke-width="8" stroke-linecap="round"/></g>`}
+  <ellipse cx="300" cy="430" rx="150" ry="20" fill="#6B4A30" opacity=".3" filter="url(#fBlur)"/>
+  ${hold ? '' : armsSvg}
+  <circle cx="126" cy="124" r="42" fill="url(#gFur)" filter="url(#fFur)"/><circle cx="124" cy="126" r="23" fill="#D98F7C"/>
+  <circle cx="474" cy="124" r="42" fill="url(#gFur)" filter="url(#fFur)"/><circle cx="476" cy="126" r="23" fill="#D98F7C"/>
+  <ellipse cx="300" cy="250" rx="190" ry="165" fill="url(#gFur)" filter="url(#fFur)"/>
+  <path d="M132,174 C132,40 468,40 468,174 Z" fill="url(#gBeanie)" filter="url(#fSoft)"/>
+  <rect x="124" y="150" width="352" height="48" rx="24" fill="#5CA63A" filter="url(#fSoft)"/>
+  <g stroke="#3F8A26" stroke-width="4" stroke-linecap="round" opacity=".55">${ribs}</g>
+  <circle cx="300" cy="62" r="32" fill="#FFF5E0" filter="url(#fFur)"/>
+  <ellipse cx="300" cy="313" rx="96" ry="66" fill="url(#gMuzzle)"/>
+  <circle cx="146" cy="312" r="50" fill="url(#gBlush)"/>
+  <circle cx="454" cy="312" r="50" fill="url(#gBlush)"/>
+  <g transform="translate(0,35)">
+    ${brows(p.brows)}${eye(p.eyes, 205)}${eye(p.eyes, 395)}
+    ${mouth(p.mouth)}
+    <ellipse cx="300" cy="243" rx="33" ry="22" fill="${C.nose}"/><ellipse cx="289" cy="235" rx="10" ry="5" fill="#fff" opacity=".6"/>
+  </g>
+  ${hold ? leaf(p.bitten) + armsSvg : ''}
   ${extras(p.extra)}
 </svg>`;
 }
@@ -173,7 +226,7 @@ const POSES = [
   { name:'기본',   eyes:'dot',   mouth:'smile', arms:'down' },
   { name:'말하기', eyes:'dot',   mouth:'open',  arms:'down' },
   { name:'활짝',   eyes:'happy', mouth:'open',  arms:'up' },
-  { name:'잎사귀', eyes:'dot',   mouth:'open',  arms:'hold' },
+  { name:'잎사귀', eyes:'happy', mouth:'open',  arms:'hold' },
   { name:'냠냠',   eyes:'happy', mouth:'chew',  arms:'hold', bitten:true },
   { name:'하트',   eyes:'heart', mouth:'smile', arms:'down', extra:'hearts' },
   { name:'삐짐',   eyes:'half',  mouth:'pout',  arms:'down', brows:'flat', extra:'steam' },
@@ -182,7 +235,7 @@ const POSES = [
   { name:'엉엉',   eyes:'cry',   mouth:'wail',  arms:'down', brows:'sad' },
 ];
 
-const PAL = [['털', C.fur], ['털 진한 곳', C.furD], ['배·주둥이', C.cream], ['코·눈', C.nose], ['볼', C.pink], ['귀 안쪽', C.ear], ['외곽선', C.o], ['잎사귀', C.leaf]];
+const PAL = [['털 밝은 곳', '#F0C792'], ['털', '#C8955F'], ['털 어두운 곳', '#93613C'], ['주둥이', '#FFF5E0'], ['볼', '#F7837F'], ['코·눈', '#33241E'], ['비니', '#5CA63A'], ['맨투맨', '#FFF9EA']];
 
 document.getElementById('hero').innerHTML = quokka(POSES[3]);
 document.getElementById('pal').innerHTML = PAL.map(([n, c]) => `<div><i style="background:${c}"></i><b>${n}</b>${c}</div>`).join('');
