@@ -7,7 +7,7 @@
 <title>Chubby Quokka</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap">
 <style>
-  /* Layout: a meadow-green page; the character stands on pale paper cards, facts beside it, poses in an even grid below. */
+  /* Layout: a meadow-green page; two character sheets side by side (뽀돌이 left, 뽀순이 right), stacking on phones. */
   :root {
     --bg: #EAF3DC;
     --fg: #3F2C1E;
@@ -15,41 +15,47 @@
     --paper: #FFFBF2;
     --line: #CFDDB8;
     --accent: #4E9A2E;
+    --accent2: #8A63C4;
     --display: 'Jua', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
     --body: 'Gowun Dodum', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --bg: #1C2619; --fg: #F1E8D8; --muted: #B9AD98; --paper: #F3E9D6; --line: #34442D; --accent: #8FD05E; color-scheme: dark; }
+    :root:not([data-theme="light"]) { --bg: #1C2619; --fg: #F1E8D8; --muted: #B9AD98; --paper: #F3E9D6; --line: #34442D; --accent: #8FD05E; --accent2: #C3A6F0; color-scheme: dark; }
   }
-  :root[data-theme="dark"] { --bg: #1C2619; --fg: #F1E8D8; --muted: #B9AD98; --paper: #F3E9D6; --line: #34442D; --accent: #8FD05E; color-scheme: dark; }
+  :root[data-theme="dark"] { --bg: #1C2619; --fg: #F1E8D8; --muted: #B9AD98; --paper: #F3E9D6; --line: #34442D; --accent: #8FD05E; --accent2: #C3A6F0; color-scheme: dark; }
 
   body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.6; }
-  .wrap { max-width: 1040px; margin: 0 auto; padding-block: 28px 48px;
+  .wrap { max-width: 1120px; margin: 0 auto; padding-block: 28px 48px;
           padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
           display: flex; flex-direction: column; gap: 28px; }
   h1 { font-family: var(--display); font-weight: 400; font-size: clamp(36px, 9vw, 56px); line-height: 1.1; margin: 0; text-wrap: balance; }
   h1 small { display: block; font-size: 0.4em; color: var(--accent); margin-top: 6px; }
-  h2 { font-family: var(--display); font-weight: 400; font-size: 24px; margin: 0; }
   .lead { margin: 8px 0 0; color: var(--muted); }
-  .hero { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 28px; align-items: center; }
+  .duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; }
+  .sheet { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .sheet h2 { font-family: var(--display); font-weight: 400; font-size: 34px; line-height: 1.1; margin: 0; color: var(--accent); }
+  .sheet.girl h2, .sheet.girl dt { color: var(--accent2); }
+  .sheet h2 small { font-family: var(--body); font-size: 15px; color: var(--muted); margin-left: 8px; }
+  .sheet h3 { font-family: var(--display); font-weight: 400; font-size: 20px; margin: 6px 0 0; }
   .stage { background: var(--paper); border-radius: 24px; }
   .stage svg { display: block; width: 100%; height: auto; }
+  .big { max-width: 300px; width: 100%; }
   .defs { position: absolute; width: 0; height: 0; }
-  dl { margin: 0; display: grid; grid-template-columns: 5em minmax(0, 1fr); gap: 10px 12px; }
+  dl { margin: 0; display: grid; grid-template-columns: 4.5em minmax(0, 1fr); gap: 8px 12px; }
   dt { font-family: var(--display); color: var(--accent); }
   dd { margin: 0; }
-  .pal { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 10px; margin-top: 20px; }
+  .pal { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 10px; }
   .pal div { font-size: 12px; line-height: 1.35; color: var(--muted); }
-  .pal i { display: block; height: 36px; border-radius: 10px; border: 1px solid var(--line); margin-bottom: 4px; }
+  .pal i { display: block; height: 32px; border-radius: 10px; border: 1px solid var(--line); margin-bottom: 4px; }
   .pal b { display: block; color: var(--fg); font-weight: 400; }
-  .section { display: flex; flex-direction: column; gap: 14px; }
-  .grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
   figure { margin: 0; }
-  figcaption { font-family: var(--display); text-align: center; margin-top: 6px; }
+  figcaption { font-family: var(--display); text-align: center; margin-top: 4px; font-size: 14px; }
+  .pair { border-top: 1px solid var(--line); padding-top: 20px; }
+  .pair h2 { font-family: var(--display); font-weight: 400; font-size: 24px; margin: 0 0 10px; }
   @media (max-width: 760px) {
-    .hero { grid-template-columns: minmax(0, 1fr); }
-    .hero .stage { max-width: 320px; width: 100%; margin: 0 auto; }
-    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .duo { grid-template-columns: minmax(0, 1fr); }
+    .big { margin: 0 auto; }
   }
 </style>
 
@@ -60,11 +66,20 @@
     <radialGradient id="gFur" gradientUnits="userSpaceOnUse" cx="235" cy="175" r="430">
       <stop offset="0" stop-color="#F0C792"/><stop offset=".5" stop-color="#C8955F"/><stop offset="1" stop-color="#93613C"/>
     </radialGradient>
+    <radialGradient id="gFur2" gradientUnits="userSpaceOnUse" cx="235" cy="175" r="430">
+      <stop offset="0" stop-color="#F8DDB4"/><stop offset=".5" stop-color="#DDAE7A"/><stop offset="1" stop-color="#A9764B"/>
+    </radialGradient>
     <radialGradient id="gSweat" gradientUnits="userSpaceOnUse" cx="250" cy="410" r="270">
       <stop offset="0" stop-color="#FFF9EA"/><stop offset="1" stop-color="#E2D0AD"/>
     </radialGradient>
+    <radialGradient id="gSweat2" gradientUnits="userSpaceOnUse" cx="250" cy="410" r="270">
+      <stop offset="0" stop-color="#F1E6FC"/><stop offset="1" stop-color="#C9B3E6"/>
+    </radialGradient>
     <linearGradient id="gSleeve" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#FFF7E6"/><stop offset="1" stop-color="#DCC9A4"/>
+    </linearGradient>
+    <linearGradient id="gSleeve2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFE3FB"/><stop offset="1" stop-color="#C2AAE2"/>
     </linearGradient>
     <radialGradient id="gMuzzle" cx=".4" cy=".3" r=".8">
       <stop offset="0" stop-color="#FFF5E0"/><stop offset="1" stop-color="#EBD2A8"/>
@@ -93,28 +108,52 @@
 
 <div class="wrap">
   <header>
-    <h1>Chubby Quokka <small>쿼카뚱 캐릭터 시트</small></h1>
-    <p class="lead">늘 웃는 얼굴의 통통한 쿼카. 먹을 것 앞에서 제일 솔직해요.</p>
+    <h1>Chubby Quokka <small>뽀돌이와 뽀순이 캐릭터 시트</small></h1>
+    <p class="lead">늘 웃는 통통한 쿼카 두 마리의 일상. 왼쪽이 뽀돌이, 오른쪽이 뽀순이입니다.</p>
   </header>
 
-  <section class="hero">
-    <div class="stage" id="hero"></div>
-    <div>
+  <div class="duo">
+    <section class="sheet boy">
+      <h2>뽀돌이 <small>Ppodol</small></h2>
+      <div class="stage big" id="hero-boy"></div>
       <dl>
-        <dt>생김새</dt><dd>공처럼 둥근 몸, 짧은 팔다리, 진한 분홍 볼, 큰 코, 복슬복슬한 갈색 털</dd>
-        <dt>옷</dt><dd>초록 비니와 크림색 맨투맨. 모든 장면에서 같은 옷을 입습니다.</dd>
-        <dt>상징물</dt><dd>초록 잎사귀. 손에 들거나 가슴에 자수로 붙입니다.</dd>
-        <dt>성격</dt><dd>먹는 걸 좋아하고 잘 웃지만, 잘 삐지기도 해요.</dd>
-        <dt>말버릇</dt><dd>"한 입만", "뚱 아니고 통통"</dd>
-        <dt>그리는 법</dt><dd>외곽선 없이 명암으로 표현하는 인형 같은 3D 느낌. 머리가 몸보다 큽니다.</dd>
+        <dt>한 줄</dt><dd>먹을 것 앞에서 제일 솔직한 느긋한 쿼카</dd>
+        <dt>생김새</dt><dd>진한 갈색 털, 공처럼 둥근 몸, 진한 분홍 볼</dd>
+        <dt>옷</dt><dd>초록 비니, 크림색 맨투맨</dd>
+        <dt>상징물</dt><dd>초록 잎사귀</dd>
+        <dt>성격</dt><dd>느긋하고 잘 웃어요. 배가 고프면 바로 삐집니다.</dd>
+        <dt>말버릇</dt><dd>"한 입만"</dd>
       </dl>
-      <div class="pal" id="pal"></div>
-    </div>
-  </section>
+      <div class="pal" id="pal-boy"></div>
+      <h3>표정·동작 10종</h3>
+      <div class="grid" id="grid-boy"></div>
+    </section>
 
-  <section class="section">
-    <h2>표정·동작 10종</h2>
-    <div class="grid" id="grid"></div>
+    <section class="sheet girl">
+      <h2>뽀순이 <small>Pposun</small></h2>
+      <div class="stage big" id="hero-girl"></div>
+      <dl>
+        <dt>한 줄</dt><dd>궁금한 건 꼭 해 봐야 하는 야무진 쿼카</dd>
+        <dt>생김새</dt><dd>밝은 갈색 털, 동그란 귀, 긴 속눈썹</dd>
+        <dt>옷</dt><dd>연보라 맨투맨, 귀 옆 데이지 핀</dd>
+        <dt>상징물</dt><dd>하얀 데이지 꽃</dd>
+        <dt>성격</dt><dd>꼼꼼하고 리액션이 커요. 뽀돌이를 잘 챙깁니다.</dd>
+        <dt>말버릇</dt><dd>"내가 해 볼게"</dd>
+      </dl>
+      <div class="pal" id="pal-girl"></div>
+      <h3>표정·동작 10종</h3>
+      <div class="grid" id="grid-girl"></div>
+    </section>
+  </div>
+
+  <section class="pair">
+    <h2>둘이 함께 나올 때</h2>
+    <dl>
+      <dt>자리</dt><dd>화면 왼쪽에 뽀돌이, 오른쪽에 뽀순이를 둡니다.</dd>
+      <dt>구분</dt><dd>뽀돌이는 초록 비니와 잎사귀, 뽀순이는 연보라 옷과 데이지로 구분합니다.</dd>
+      <dt>관계</dt><dd>같이 사는 단짝. 뽀돌이가 일을 벌이고 뽀순이가 수습합니다.</dd>
+      <dt>옷 고정</dt><dd>모든 장면에서 두 캐릭터의 옷과 소품을 바꾸지 않습니다.</dd>
+    </dl>
   </section>
 </div>
 
@@ -123,15 +162,22 @@ const C = { o:'#4A3020', nose:'#33241E', mouth:'#8C3434', tongue:'#F28C8C', tear
 const S = `stroke="${C.o}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"`;
 const L = `fill="none" ${S}`;
 
-function eye(type, x) {
+const WHO = {
+  boy:  { fur:'gFur',  sweat:'gSweat',  sleeve:'gSleeve',  trim:'#D3C09B', bite:'#F4E9D2', beanie:true },
+  girl: { fur:'gFur2', sweat:'gSweat2', sleeve:'gSleeve2', trim:'#B49BD6', bite:'#E0D1F2', beanie:false },
+};
+
+function eye(type, x, lash) {
+  const side = x < 300 ? -1 : 1;
+  const lashes = lash ? `<path d="M${x + side * 17},204 l${side * 13},-9 M${x + side * 20},214 l${side * 14},-2" ${L}/>` : '';
   switch (type) {
-    case 'happy': return `<path d="M${x-22},222 Q${x},190 ${x+22},222" ${L}/>`;
+    case 'happy': return `<path d="M${x-22},222 Q${x},190 ${x+22},222" ${L}/>` + (lash ? `<path d="M${x + side * 22},222 l${side * 12},-6" ${L}/>` : '');
     case 'half':  return `<path d="M${x-20},210 A20,20 0 0 0 ${x+20},210 Z" fill="${C.nose}"/><path d="M${x-25},210 L${x+25},210" ${L}/>`;
-    case 'big':   return `<circle cx="${x}" cy="213" r="25" fill="#fff" ${S}/><circle cx="${x}" cy="213" r="9" fill="${C.nose}"/>`;
+    case 'big':   return `<circle cx="${x}" cy="213" r="25" fill="#fff" ${S}/><circle cx="${x}" cy="213" r="9" fill="${C.nose}"/>` + lashes;
     case 'cry':   return `<path d="M${x-22},208 Q${x},232 ${x+22},208" ${L}/>
                    <path d="M${x},240 C${x-17},266 ${x-11},284 ${x},284 C${x+11},284 ${x+17},266 ${x},240 Z" fill="${C.tear}" stroke="#4FA3D6" stroke-width="3" stroke-linejoin="round"/>`;
     case 'heart': return `<path transform="translate(${x},218) scale(1.35)" d="M0,16 C-32,-6 -17,-30 0,-12 C17,-30 32,-6 0,16Z" fill="#F0566E"/>`;
-    default:      return `<circle cx="${x}" cy="215" r="20" fill="${C.nose}"/><circle cx="${x-6}" cy="208" r="7" fill="#fff"/><circle cx="${x+7}" cy="223" r="3.5" fill="#fff" opacity=".8"/>`;
+    default:      return `<circle cx="${x}" cy="215" r="20" fill="${C.nose}"/><circle cx="${x-6}" cy="208" r="7" fill="#fff"/><circle cx="${x+7}" cy="223" r="3.5" fill="#fff" opacity=".8"/>` + lashes;
   }
 }
 
@@ -155,31 +201,40 @@ function brows(type) {
   return '';
 }
 
-function arm(side, pose) {
+function arm(side, pose, W) {
   const sx = side < 0 ? 150 : 450;
   const ang = { down: 15, up: 140, hold: -58 }[pose] * (side < 0 ? 1 : -1);
   return `<g transform="translate(${sx},420) rotate(${ang})">
     <circle cx="0" cy="128" r="22" fill="url(#gDark)" filter="url(#fFur)"/>
-    <ellipse cx="0" cy="52" rx="42" ry="66" fill="url(#gSleeve)" filter="url(#fSoft)"/>
-    <ellipse cx="0" cy="110" rx="31" ry="11" fill="#D3C09B"/>
+    <ellipse cx="0" cy="52" rx="42" ry="66" fill="url(#${W.sleeve})" filter="url(#fSoft)"/>
+    <ellipse cx="0" cy="110" rx="31" ry="11" fill="${W.trim}"/>
   </g>`;
 }
 
-function leaf(bitten) {
+function leaf(bite) {
   return `<g transform="translate(0,35)">
     <path d="M300,500 L300,462" fill="none" stroke="${C.leafD}" stroke-width="8" stroke-linecap="round"/>
     <path d="M300,470 C258,455 258,400 300,372 C342,400 342,455 300,470Z" fill="${C.leaf}"/>
     <path d="M300,470 C320,455 330,420 300,372 C342,400 342,455 300,470Z" fill="${C.leafD}" opacity=".35"/>
     <path d="M300,462 L300,392 M300,440 L282,426 M300,440 L318,426 M300,418 L286,406 M300,418 L314,406" fill="none" stroke="${C.leafD}" stroke-width="4" stroke-linecap="round"/>
-    ${bitten ? `<circle cx="333" cy="394" r="18" fill="#F4E9D2"/>` : ''}
+    ${bite ? `<circle cx="333" cy="394" r="18" fill="${bite}"/>` : ''}
   </g>`;
+}
+
+function daisy(x, y, s) {
+  const petals = Array.from({ length: 8 }, (_, i) => `<ellipse cx="0" cy="-24" rx="11" ry="19" transform="rotate(${i * 45})" fill="#FFFFFF" stroke="#E6DCC8" stroke-width="1.5"/>`).join('');
+  return `<g transform="translate(${x},${y}) scale(${s})">${petals}<circle r="13" fill="#F6C544"/><circle cx="-3" cy="-3" r="5" fill="#FBDD7C"/></g>`;
+}
+function heldDaisy() {
+  return `<path d="M300,540 Q294,500 300,468" fill="none" stroke="${C.leafD}" stroke-width="8" stroke-linecap="round"/>
+    <path d="M298,510 q26,-18 34,4 q-22,8 -34,-4Z" fill="${C.leaf}"/>${daisy(300, 448, 1.15)}`;
 }
 
 function extras(type) {
   const heart = (x, y, s) => `<path transform="translate(${x},${y}) scale(${s})" d="M0,16 C-32,-6 -17,-30 0,-12 C17,-30 32,-6 0,16Z" fill="#F0566E"/>`;
   switch (type) {
     case 'hearts': return heart(545, 110, 1.1) + heart(572, 190, 0.6) + heart(48, 140, 0.8);
-    case 'anger':  return `<g transform="translate(530,80)" stroke="#E5484D" stroke-width="8" fill="none" stroke-linecap="round">
+    case 'anger':  return `<g transform="translate(540,70)" stroke="#E5484D" stroke-width="8" fill="none" stroke-linecap="round">
         <path d="M-20,-7 Q-7,-7 -7,-20"/><path d="M7,-20 Q7,-7 20,-7"/><path d="M20,7 Q7,7 7,20"/><path d="M-7,20 Q-7,7 -20,7"/></g>`;
     case 'shock':  return `<g ${L}><path d="M68,84 L44,58"/><path d="M50,148 L16,138"/><path d="M532,84 L556,58"/><path d="M550,148 L584,138"/></g>`;
     case 'steam':  return `<g fill="#fff" stroke="${C.o}" stroke-width="4"><circle cx="522" cy="360" r="13"/><circle cx="548" cy="342" r="9"/><circle cx="566" cy="328" r="5"/></g>`;
@@ -187,37 +242,48 @@ function extras(type) {
   }
 }
 
-function quokka(p) {
+function quokka(p, who) {
+  const W = WHO[who], girl = who === 'girl';
   const hold = p.arms === 'hold';
-  const armsSvg = arm(-1, p.arms) + arm(1, p.arms);
+  const armsSvg = arm(-1, p.arms, W) + arm(1, p.arms, W);
   const ribs = Array.from({ length: 18 }, (_, i) => `<path d="M${140 + i * 19},156 L${140 + i * 19},192"/>`).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 680" role="img" aria-label="Chubby Quokka ${p.name}">
+  const emblem = girl ? daisy(300, 505, 0.42)
+    : `<g transform="translate(300,505) rotate(20) scale(.42) translate(-300,-421)"><path d="M300,470 C258,455 258,400 300,372 C342,400 342,455 300,470Z" fill="${C.leaf}"/><path d="M300,500 L300,392" fill="none" stroke="${C.leafD}" stroke-width="8" stroke-linecap="round"/></g>`;
+  const ears = W.beanie
+    ? `<circle cx="126" cy="124" r="42" fill="url(#${W.fur})" filter="url(#fFur)"/><circle cx="124" cy="126" r="23" fill="#D98F7C"/>
+       <circle cx="474" cy="124" r="42" fill="url(#${W.fur})" filter="url(#fFur)"/><circle cx="476" cy="126" r="23" fill="#D98F7C"/>`
+    : `<circle cx="158" cy="112" r="50" fill="url(#${W.fur})" filter="url(#fFur)"/><circle cx="158" cy="114" r="28" fill="#E7A08E"/>
+       <circle cx="442" cy="112" r="50" fill="url(#${W.fur})" filter="url(#fFur)"/><circle cx="442" cy="114" r="28" fill="#E7A08E"/>`;
+  const hat = W.beanie
+    ? `<path d="M132,174 C132,40 468,40 468,174 Z" fill="url(#gBeanie)" filter="url(#fSoft)"/>
+       <rect x="124" y="150" width="352" height="48" rx="24" fill="#5CA63A" filter="url(#fSoft)"/>
+       <g stroke="#3F8A26" stroke-width="4" stroke-linecap="round" opacity=".55">${ribs}</g>
+       <circle cx="300" cy="62" r="32" fill="#FFF5E0" filter="url(#fFur)"/>`
+    : daisy(408, 150, 1.05);
+  const item = !hold ? '' : (girl && !p.leaf ? heldDaisy() : leaf(p.bitten ? W.bite : ''));
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 680" role="img" aria-label="${girl ? '뽀순이' : '뽀돌이'} ${p.name}">
   <ellipse cx="300" cy="652" rx="185" ry="16" fill="#3A2A1A" opacity=".22" filter="url(#fBlur)"/>
   <ellipse cx="472" cy="600" rx="44" ry="18" transform="rotate(-25 472 600)" fill="url(#gDark)" filter="url(#fFur)"/>
-  <ellipse cx="300" cy="505" rx="168" ry="138" fill="url(#gFur)" filter="url(#fFur)"/>
+  <ellipse cx="300" cy="505" rx="168" ry="138" fill="url(#${W.fur})" filter="url(#fFur)"/>
   <ellipse cx="238" cy="634" rx="48" ry="21" fill="url(#gDark)" filter="url(#fFur)"/>
   <ellipse cx="362" cy="634" rx="48" ry="21" fill="url(#gDark)" filter="url(#fFur)"/>
-  <g clip-path="url(#cSweat)"><ellipse cx="300" cy="498" rx="178" ry="146" fill="url(#gSweat)"/></g>
-  <path d="M148,565 Q300,604 452,565" fill="none" stroke="#D3C09B" stroke-width="18" stroke-linecap="round"/>
-  ${hold ? '' : `<g transform="translate(300,505) rotate(20) scale(.42) translate(-300,-421)"><path d="M300,470 C258,455 258,400 300,372 C342,400 342,455 300,470Z" fill="${C.leaf}"/><path d="M300,500 L300,392" fill="none" stroke="${C.leafD}" stroke-width="8" stroke-linecap="round"/></g>`}
+  <g clip-path="url(#cSweat)"><ellipse cx="300" cy="498" rx="178" ry="146" fill="url(#${W.sweat})"/></g>
+  <path d="M148,565 Q300,604 452,565" fill="none" stroke="${W.trim}" stroke-width="18" stroke-linecap="round"/>
+  ${hold ? '' : emblem}
   <ellipse cx="300" cy="430" rx="150" ry="20" fill="#6B4A30" opacity=".3" filter="url(#fBlur)"/>
   ${hold ? '' : armsSvg}
-  <circle cx="126" cy="124" r="42" fill="url(#gFur)" filter="url(#fFur)"/><circle cx="124" cy="126" r="23" fill="#D98F7C"/>
-  <circle cx="474" cy="124" r="42" fill="url(#gFur)" filter="url(#fFur)"/><circle cx="476" cy="126" r="23" fill="#D98F7C"/>
-  <ellipse cx="300" cy="250" rx="190" ry="165" fill="url(#gFur)" filter="url(#fFur)"/>
-  <path d="M132,174 C132,40 468,40 468,174 Z" fill="url(#gBeanie)" filter="url(#fSoft)"/>
-  <rect x="124" y="150" width="352" height="48" rx="24" fill="#5CA63A" filter="url(#fSoft)"/>
-  <g stroke="#3F8A26" stroke-width="4" stroke-linecap="round" opacity=".55">${ribs}</g>
-  <circle cx="300" cy="62" r="32" fill="#FFF5E0" filter="url(#fFur)"/>
+  ${ears}
+  <ellipse cx="300" cy="250" rx="190" ry="165" fill="url(#${W.fur})" filter="url(#fFur)"/>
+  ${hat}
   <ellipse cx="300" cy="313" rx="96" ry="66" fill="url(#gMuzzle)"/>
   <circle cx="146" cy="312" r="50" fill="url(#gBlush)"/>
   <circle cx="454" cy="312" r="50" fill="url(#gBlush)"/>
   <g transform="translate(0,35)">
-    ${brows(p.brows)}${eye(p.eyes, 205)}${eye(p.eyes, 395)}
+    ${brows(p.brows)}${eye(p.eyes, 205, girl)}${eye(p.eyes, 395, girl)}
     ${mouth(p.mouth)}
     <ellipse cx="300" cy="243" rx="33" ry="22" fill="${C.nose}"/><ellipse cx="289" cy="235" rx="10" ry="5" fill="#fff" opacity=".6"/>
   </g>
-  ${hold ? leaf(p.bitten) + armsSvg : ''}
+  ${hold ? item + armsSvg : ''}
   ${extras(p.extra)}
 </svg>`;
 }
@@ -226,8 +292,8 @@ const POSES = [
   { name:'기본',   eyes:'dot',   mouth:'smile', arms:'down' },
   { name:'말하기', eyes:'dot',   mouth:'open',  arms:'down' },
   { name:'활짝',   eyes:'happy', mouth:'open',  arms:'up' },
-  { name:'잎사귀', eyes:'happy', mouth:'open',  arms:'hold' },
-  { name:'냠냠',   eyes:'happy', mouth:'chew',  arms:'hold', bitten:true },
+  { name:'상징물', eyes:'happy', mouth:'open',  arms:'hold' },
+  { name:'냠냠',   eyes:'happy', mouth:'chew',  arms:'hold', bitten:true, leaf:true },
   { name:'하트',   eyes:'heart', mouth:'smile', arms:'down', extra:'hearts' },
   { name:'삐짐',   eyes:'half',  mouth:'pout',  arms:'down', brows:'flat', extra:'steam' },
   { name:'화남',   eyes:'dot',   mouth:'zig',   arms:'down', brows:'angry', extra:'anger' },
@@ -235,11 +301,17 @@ const POSES = [
   { name:'엉엉',   eyes:'cry',   mouth:'wail',  arms:'down', brows:'sad' },
 ];
 
-const PAL = [['털 밝은 곳', '#F0C792'], ['털', '#C8955F'], ['털 어두운 곳', '#93613C'], ['주둥이', '#FFF5E0'], ['볼', '#F7837F'], ['코·눈', '#33241E'], ['비니', '#5CA63A'], ['맨투맨', '#FFF9EA']];
+const PAL = {
+  boy:  [['털', '#C8955F'], ['털 밝은 곳', '#F0C792'], ['볼', '#F7837F'], ['비니', '#5CA63A'], ['맨투맨', '#FFF9EA'], ['잎사귀', '#7CC04B']],
+  girl: [['털', '#DDAE7A'], ['털 밝은 곳', '#F8DDB4'], ['볼', '#F7837F'], ['맨투맨', '#D9C8F0'], ['데이지', '#FFFFFF'], ['꽃술', '#F6C544']],
+};
 
-document.getElementById('hero').innerHTML = quokka(POSES[3]);
-document.getElementById('pal').innerHTML = PAL.map(([n, c]) => `<div><i style="background:${c}"></i><b>${n}</b>${c}</div>`).join('');
-document.getElementById('grid').innerHTML = POSES.map(p => `<figure><div class="stage">${quokka(p)}</div><figcaption>${p.name}</figcaption></figure>`).join('');
+for (const who of ['boy', 'girl']) {
+  const item = who === 'boy' ? '잎사귀' : '데이지';
+  document.getElementById('hero-' + who).innerHTML = quokka(POSES[3], who);
+  document.getElementById('pal-' + who).innerHTML = PAL[who].map(([n, c]) => `<div><i style="background:${c}"></i><b>${n}</b>${c}</div>`).join('');
+  document.getElementById('grid-' + who).innerHTML = POSES.map(p => `<figure><div class="stage">${quokka(p, who)}</div><figcaption>${p.name === '상징물' ? item : p.name}</figcaption></figure>`).join('');
+}
 </script>
 </body>
 </html>
